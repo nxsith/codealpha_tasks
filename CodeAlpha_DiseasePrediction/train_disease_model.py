@@ -1,5 +1,3 @@
-"""Train and compare beginner-friendly diabetes classification models."""
-
 from pathlib import Path
 
 import joblib
@@ -45,7 +43,6 @@ FEATURE_NAMES = COLUMN_NAMES[:-1]
 
 
 def load_data() -> tuple[pd.DataFrame, pd.Series]:
-    """Load data and replace impossible zero measurements with missing values."""
     data = pd.read_csv(DATA_PATH, header=None, names=COLUMN_NAMES)
     features = data[FEATURE_NAMES].copy()
     features[MISSING_VALUE_COLUMNS] = features[MISSING_VALUE_COLUMNS].replace(0, float("nan"))
@@ -54,7 +51,6 @@ def load_data() -> tuple[pd.DataFrame, pd.Series]:
 
 
 def make_pipeline(classifier) -> Pipeline:
-    """Create a leakage-safe preprocessing and classification pipeline."""
     return Pipeline(
         steps=[
             ("imputer", SimpleImputer(strategy="median")),
@@ -65,7 +61,6 @@ def make_pipeline(classifier) -> Pipeline:
 
 
 def evaluate_model(name: str, model: Pipeline, x_test: pd.DataFrame, y_test: pd.Series) -> tuple[dict, pd.Series]:
-    """Report test-set metrics for a trained model."""
     predictions = model.predict(x_test)
     probabilities = model.predict_proba(x_test)[:, 1]
     metrics = {
@@ -80,7 +75,6 @@ def evaluate_model(name: str, model: Pipeline, x_test: pd.DataFrame, y_test: pd.
 
 
 def save_charts(model: Pipeline, x_test: pd.DataFrame, y_test: pd.Series, probabilities, model_name: str) -> None:
-    """Save a confusion matrix and ROC curve for the selected model."""
     predictions = model.predict(x_test)
 
     fig, ax = plt.subplots(figsize=(6, 5))
@@ -105,7 +99,6 @@ def save_charts(model: Pipeline, x_test: pd.DataFrame, y_test: pd.Series, probab
 
 
 def main() -> None:
-    """Run the complete training workflow."""
     OUTPUT_DIR.mkdir(exist_ok=True)
     sns.set_theme(style="whitegrid")
 

@@ -1,5 +1,3 @@
-"""Train a small CNN to classify MNIST handwritten digits."""
-
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -14,7 +12,6 @@ OUTPUT_DIR = PROJECT_DIR / "outputs"
 
 
 def load_and_prepare_data():
-    """Load MNIST, scale pixel values, and add the grayscale channel dimension."""
     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
     x_train = x_train.astype("float32") / 255.0
     x_test = x_test.astype("float32") / 255.0
@@ -24,7 +21,6 @@ def load_and_prepare_data():
 
 
 def build_model() -> tf.keras.Model:
-    """Create a small, easy-to-explain convolutional neural network."""
     model = tf.keras.Sequential(
         [
             tf.keras.layers.Input(shape=(28, 28, 1)),
@@ -43,7 +39,6 @@ def build_model() -> tf.keras.Model:
 
 
 def save_training_history(history: tf.keras.callbacks.History) -> None:
-    """Save accuracy and loss across training epochs."""
     fig, axes = plt.subplots(1, 2, figsize=(11, 4))
     axes[0].plot(history.history["accuracy"], label="Training")
     axes[0].plot(history.history["val_accuracy"], label="Validation")
@@ -59,7 +54,6 @@ def save_training_history(history: tf.keras.callbacks.History) -> None:
 
 
 def save_confusion_matrix(y_test: np.ndarray, predictions: np.ndarray) -> None:
-    """Save a matrix showing which digits the model confuses."""
     fig, ax = plt.subplots(figsize=(8, 7))
     ConfusionMatrixDisplay.from_predictions(
         y_test, predictions, display_labels=range(10), cmap="Blues", ax=ax, colorbar=False
@@ -71,7 +65,6 @@ def save_confusion_matrix(y_test: np.ndarray, predictions: np.ndarray) -> None:
 
 
 def save_sample_predictions(x_test: np.ndarray, y_test: np.ndarray, predictions: np.ndarray) -> None:
-    """Save ten examples so predictions can be inspected visually."""
     sample_indices = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     fig, axes = plt.subplots(2, 5, figsize=(10, 4))
     for axis, index in zip(axes.flat, sample_indices):
@@ -90,7 +83,6 @@ def save_sample_predictions(x_test: np.ndarray, y_test: np.ndarray, predictions:
 
 
 def main() -> None:
-    """Train, evaluate, and save the CNN."""
     OUTPUT_DIR.mkdir(exist_ok=True)
     sns.set_theme(style="whitegrid")
     tf.keras.utils.set_random_seed(42)

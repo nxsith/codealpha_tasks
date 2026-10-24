@@ -1,5 +1,3 @@
-"""Train and compare simple models for the UCI German Credit dataset."""
-
 from pathlib import Path
 
 import joblib
@@ -64,7 +62,6 @@ NUMERIC_FEATURES = [
 
 
 def load_data() -> tuple[pd.DataFrame, pd.Series]:
-    """Load raw data and make 1 mean bad credit risk (the positive class)."""
     data = pd.read_csv(DATA_PATH, sep=r"\s+", header=None, names=COLUMN_NAMES)
     features = data.drop(columns="credit_risk")
     target = data["credit_risk"].map({1: 0, 2: 1})
@@ -72,7 +69,6 @@ def load_data() -> tuple[pd.DataFrame, pd.Series]:
 
 
 def make_preprocessor(categorical_features: list[str]) -> ColumnTransformer:
-    """Prepare each feature type without using any test-set information."""
     numeric_pipeline = Pipeline(
         steps=[
             ("imputer", SimpleImputer(strategy="median")),
@@ -94,7 +90,6 @@ def make_preprocessor(categorical_features: list[str]) -> ColumnTransformer:
 
 
 def evaluate_model(name: str, model: Pipeline, x_test: pd.DataFrame, y_test: pd.Series) -> tuple[dict, pd.Series]:
-    """Measure a fitted model on applicants it did not see during training."""
     predictions = model.predict(x_test)
     probabilities = model.predict_proba(x_test)[:, 1]
     metrics = {
@@ -109,7 +104,6 @@ def evaluate_model(name: str, model: Pipeline, x_test: pd.DataFrame, y_test: pd.
 
 
 def save_charts(model: Pipeline, x_test: pd.DataFrame, y_test: pd.Series, probabilities, model_name: str) -> None:
-    """Create the two visual checks requested in the internship task."""
     predictions = model.predict(x_test)
 
     fig, ax = plt.subplots(figsize=(6, 5))
@@ -134,7 +128,6 @@ def save_charts(model: Pipeline, x_test: pd.DataFrame, y_test: pd.Series, probab
 
 
 def main() -> None:
-    """Run the complete beginner-friendly training workflow."""
     OUTPUT_DIR.mkdir(exist_ok=True)
     sns.set_theme(style="whitegrid")
 

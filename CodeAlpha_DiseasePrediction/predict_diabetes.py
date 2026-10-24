@@ -1,5 +1,3 @@
-"""Make one educational prediction with the saved diabetes model."""
-
 import argparse
 from pathlib import Path
 

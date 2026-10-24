@@ -1,5 +1,3 @@
-"""Predict a handwritten digit from an image using the saved MNIST CNN."""
-
 import argparse
 from pathlib import Path
 
@@ -19,11 +17,10 @@ def parse_arguments() -> argparse.Namespace:
 
 
 def prepare_image(image_path: str) -> np.ndarray:
-    """Convert an image into the 28 x 28 grayscale format used by MNIST."""
     image = Image.open(image_path).convert("L").resize((28, 28))
     pixels = np.asarray(image, dtype="float32") / 255.0
     if pixels.mean() > 0.5:
-        pixels = 1.0 - pixels  # Match MNIST: light digit on a dark background.
+        pixels = 1.0 - pixels
     return pixels.reshape(1, 28, 28, 1)
 
 
