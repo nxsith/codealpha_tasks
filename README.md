@@ -11,3 +11,8 @@ This repository contains three completed machine-learning internship tasks.
 Each project folder has its own README with dataset details, setup instructions, results, visual outputs, and limitations.
 
 All projects are educational demonstrations only. They are not for real lending, medical, or clinical decisions.
+
+
+## Author
+
+**Nisith Herath** · [Portfolio](https://nisith.dev) · [LinkedIn](https://www.linkedin.com/in/nisith-herath-b77014357/) · [GitHub](https://github.com/nxsith)
